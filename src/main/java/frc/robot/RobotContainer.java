@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ServoControl;
 import frc.robot.subsystems.RomiDrivetrain;
+import frc.robot.subsystems.ServoSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,6 +24,9 @@ public class RobotContainer {
 
   private final XboxController m_controller = new XboxController(0);
 
+  private final ServoSubsystem m_servo0 = new ServoSubsystem(3);
+  private final ServoSubsystem m_servo1 = new ServoSubsystem(2);
+
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_romiDrivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -32,6 +37,12 @@ public class RobotContainer {
     m_romiDrivetrain.setDefaultCommand(
         new DriveCommand(
             m_romiDrivetrain, () -> -m_controller.getLeftY(), () -> -m_controller.getLeftX()));
+
+    m_servo0.setDefaultCommand(
+        new ServoControl(m_servo0, () -> (0.5 + m_controller.getRightY() / 2)));
+
+    m_servo1.setDefaultCommand(
+        new ServoControl(m_servo1, () -> (0.5 + -m_controller.getRightX() / 2)));
   }
 
   /**
