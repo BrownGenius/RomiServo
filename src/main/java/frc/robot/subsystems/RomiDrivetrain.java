@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.romi.RomiGyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class RomiDrivetrain extends SubsystemBase {
@@ -25,6 +26,8 @@ public class RomiDrivetrain extends SubsystemBase {
 
   // Set up the differential drive controller
   private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
+
+  private final RomiGyro m_gyro = new RomiGyro();
 
   /** Creates a new RomiDrivetrain. */
   public RomiDrivetrain() {
@@ -52,6 +55,14 @@ public class RomiDrivetrain extends SubsystemBase {
 
   public double getRightDistanceInch() {
     return m_rightEncoder.getDistance();
+  }
+
+  /**
+   * @return current yaw angle in degrees. Value is cumulative. E.g. if the robot starts at 0 and
+   *     rotates 2x clockwise (when viewed from the top), the reported Yaw is 2*360.
+   */
+  public double getYaw() {
+    return m_gyro.getAngleZ();
   }
 
   @Override
